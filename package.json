@@ -1,6 +1,9 @@
 {
   "name": "translateapp-rtk-thunk",
   "private": true,
+  "workspaces": [
+    "Desktop/translateApp-RTK-thunk"
+  ],
   "version": "0.0.0",
   "type": "module",
   "scripts": {
