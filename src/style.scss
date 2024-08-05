@@ -1,4 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+$root-font-size: 16px;
+
+// Convert px to rem
+@function px-to-rem($px) {
+  @return $px / $root-font-size + rem;
+}
 
 * {
   margin: 0;
@@ -8,13 +14,19 @@
 
 body {
   font-family: "Open Sans", sans-serif;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f4f4f4;
 }
 
 header,
 footer {
   text-align: center;
   padding: 1rem;
-  background-color: #f4f4f4;
+  background-color: #4caf50 !important;
+  
   h1 {
     margin: 0;
   }
@@ -22,19 +34,37 @@ footer {
 
 main {
   padding: 2rem;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
   .translator {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: px-to-rem(800px);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 1rem;
 
     .top-buttons,
     .bottom-buttons {
       margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-evenly;
       button {
-        margin: 0 0.5rem;
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
+        flex: 1;
+        padding: 1rem;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: px-to-rem(5px);
         cursor: pointer;
+        font-size: 1rem;
+        margin: 0.5rem;
       }
     }
     .text-areas {
@@ -45,7 +75,7 @@ main {
       .text-area-container {
         display: flex;
         flex-direction: column;
-        width: 250px;
+        width: px-to-rem(250px);
         select,
         textarea {
           width: 100%;
@@ -54,7 +84,7 @@ main {
           margin-bottom: 0.5rem;
         }
         textarea {
-          height: 150px;
+          height: px-to-rem(150px);
           resize: vertical;
         }
         .syncAlt {

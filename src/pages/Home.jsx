@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SyncAlt from "../assets/icons/SyncAlt";
 
 const Home = () => {
+  useEffect(() => {
+    return () => {};
+  }, []);
+
   return (
     <div>
       <header>
