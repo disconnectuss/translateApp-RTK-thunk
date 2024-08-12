@@ -4,5 +4,6 @@ export const options = {
   headers: {
     "x-rapidapi-host": "deep-translate1.p.rapidapi.com",
     "x-rapidapi-key": "bb908fbc39msh59a27f0e0c50ae2p1220bdjsn816ff2daf147",
-  },
+    "Content-Type": "application/json; charset=utf-8"
+  }
 };

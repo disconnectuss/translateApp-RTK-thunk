@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
 import SyncAlt from "../assets/icons/SyncAlt";
+import { useDispatch } from "react-redux";
+import { getLanguages } from "../redux/actions/translateActions";
 
 const Home = () => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    return () => {};
+    dispatch(getLanguages());
   }, []);
 
   return (
