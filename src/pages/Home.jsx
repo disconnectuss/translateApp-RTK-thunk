@@ -1,14 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SyncAlt from "../assets/icons/SyncAlt";
-import { useDispatch } from "react-redux";
-import { getLanguages } from "../redux/actions/translateActions";
+import { useDispatch, useSelector } from "react-redux";
+import { getLanguages, translateText } from "../redux/actions/translateActions";
+import Select from "react-select";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const state = useSelector((store) => store.translate);
+  // console.log(state.languages);
+  const [source, setSource] = useState();
+  const [target, setTarget] = useState();
+  const [text, setText] = useState();
 
   useEffect(() => {
     dispatch(getLanguages());
   }, []);
+
+  const options = [{ value: "chocolate", label: "Chocolate" }];
+
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      color: "black",
+      backgroundColor: state.isSelected ? "#4caf50" : "white",
+      "&:hover": {
+        backgroundColor: "#f0f0f0",
+      },
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+  };
 
   return (
     <div>
@@ -22,23 +45,33 @@ const Home = () => {
           </div>
           <div className="text-areas">
             <div className="text-area-container">
-              <select name="sourceLanguage" id="sourceLanguage">
-                <option value="">Select Language</option>
-                {/* Add more options as needed */}
-              </select>
+              <Select
+                className="select"
+                options={state.languages}
+                styles={customStyles}
+                isDisabled={state.isLoading}
+                isLoading={state.isLoading}
+                value={source}
+                onChange={(e) => setSource(e)}
+              />
               <textarea
                 id="inputText"
                 placeholder="Enter text to translate..."
+                onChange={(e)=> setText(e)}
               ></textarea>
             </div>
             <div className="syncAlt">
               <SyncAlt />
             </div>
             <div className="text-area-container">
-              <select name="targetLanguage" id="targetLanguage">
-                <option value="">Select Language</option>
-                {/* Add more options as needed */}
-              </select>
+              <Select
+                options={state.languages}
+                styles={customStyles}
+                onChange={(e) => setTarget(e)}
+                value={target}
+                isDisabled={state.isLoading}
+                isLoading={state.isLoading}
+              />
               <textarea
                 id="outputText"
                 placeholder="Translated text will appear here..."
@@ -47,7 +80,7 @@ const Home = () => {
             </div>
           </div>
           <div className="bottom-buttons">
-            <button id="translateBtn">Translate</button>
+            <button id="translateBtn" onClick={()=>dispatch(translateText())}>Translate</button>
             <button id="resetBtn">Reset</button>
           </div>
         </section>
