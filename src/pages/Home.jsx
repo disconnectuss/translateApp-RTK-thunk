@@ -57,7 +57,7 @@ const Home = () => {
               <textarea
                 id="inputText"
                 placeholder="Enter text to translate..."
-                onChange={(e)=> setText(e)}
+                onChange={(e) => setText(e)}
               ></textarea>
             </div>
             <div className="syncAlt">
@@ -80,7 +80,12 @@ const Home = () => {
             </div>
           </div>
           <div className="bottom-buttons">
-            <button id="translateBtn" onClick={()=>dispatch(translateText())}>Translate</button>
+            <button
+              id="translateBtn"
+              onClick={() => dispatch(translateText({ source, target, text }))}
+            >
+              Translate
+            </button>
             <button id="resetBtn">Reset</button>
           </div>
         </section>

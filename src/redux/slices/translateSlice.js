@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getLanguages } from "../actions/translateActions";
+import { getLanguages, translateText } from "../actions/translateActions";
 
 const initialState = {
   isLoading: true,
   isError: false,
   languages: [],
-  status: "idle",
-  error: null,
+  translateLoading: true,
+  translateError: false,
+  translatedText: {},
 };
 
 const translateSlice = createSlice({
@@ -27,6 +28,17 @@ const translateSlice = createSlice({
         (state.languages = action.payload),
           (state.isLoading = false),
           (state.isError = true);
+      })
+      .addCase(translateText.pending, (state) => {
+        state.translateLoading = true;
+      })
+      .addCase(translateText.fulfilled, (state) => {
+        (state.translatedText = action.payload),
+          (state.translateLoading = false),
+          (state.translateError = false);
+      })
+      .addCase(translateText.rejected, (state) => {
+        (state.translateLoading = false), (state.translateError = true);
       });
   },
 });

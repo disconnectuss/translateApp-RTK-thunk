@@ -14,26 +14,29 @@ export const getLanguages = createAsyncThunk("languages", async () => {
   return refinedData;
 });
 
-export const translateText = createAsyncThunk("translateText", async () => {
-  const options = {
-    method: "POST",
-    url: "https://deep-translate1.p.rapidapi.com/language/translate/v2",
-    headers: {
-      "x-rapidapi-key": "bb908fbc39msh59a27f0e0c50ae2p1220bdjsn816ff2daf147",
-      "x-rapidapi-host": "deep-translate1.p.rapidapi.com",
-      "Content-Type": "application/json",
-    },
-    data: {
-      q: "Hello World!",
-      source: "en",
-      target: "es",
-    },
-  };
-  try {
-    const res = await axios.request(options);
-    console.log(res.data);
-  } catch (error) {
-    console.error(error);
+export const translateText = createAsyncThunk(
+  "translateText",
+  async (params) => {
+    const options = {
+      method: "POST",
+      url: "https://deep-translate1.p.rapidapi.com/language/translate/v2",
+      headers: {
+        "x-rapidapi-key": "bb908fbc39msh59a27f0e0c50ae2p1220bdjsn816ff2daf147",
+        "x-rapidapi-host": "deep-translate1.p.rapidapi.com",
+        "Content-Type": "application/json",
+      },
+      data: {
+        q: params.text,
+        source: params.source,
+        target: params.target,
+      },
+    };
+    try {
+      const res = await axios.request(options);
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+    return res.data.translateText;
   }
-  return res.data.translateText;
-});
+);
