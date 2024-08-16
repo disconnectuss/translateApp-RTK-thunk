@@ -7,13 +7,17 @@ const initialState = {
   languages: [],
   translateLoading: true,
   translateError: false,
-  translatedText: {},
+  translatedText: "",
 };
 
 const translateSlice = createSlice({
   name: "translate",
   initialState,
-  reducers: {},
+  reducers: {
+    clearTranslate: (state) => {
+      state.translatedText = "";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getLanguages.pending, (state) => {
@@ -32,7 +36,7 @@ const translateSlice = createSlice({
       .addCase(translateText.pending, (state) => {
         state.translateLoading = true;
       })
-      .addCase(translateText.fulfilled, (state) => {
+      .addCase(translateText.fulfilled, (state, action) => {
         (state.translatedText = action.payload),
           (state.translateLoading = false),
           (state.translateError = false);
@@ -44,3 +48,5 @@ const translateSlice = createSlice({
 });
 
 export default translateSlice.reducer;
+
+export const clearTranslate = translateSlice.actions.clearTranslate;

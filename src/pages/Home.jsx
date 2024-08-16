@@ -3,20 +3,30 @@ import SyncAlt from "../assets/icons/SyncAlt";
 import { useDispatch, useSelector } from "react-redux";
 import { getLanguages, translateText } from "../redux/actions/translateActions";
 import Select from "react-select";
+import { clearTranslate } from "../redux/slices/translateSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
   const state = useSelector((store) => store.translate);
-  // console.log(state.languages);
+
   const [source, setSource] = useState();
   const [target, setTarget] = useState();
-  const [text, setText] = useState();
+  const [text, setText] = useState("");
 
   useEffect(() => {
     dispatch(getLanguages());
-  }, []);
+  }, [dispatch]);
 
-  const options = [{ value: "chocolate", label: "Chocolate" }];
+  const handleChange = () => {
+    setTarget(source);
+    setSource(target);
+    const inputText = text;
+    const translatedText = state.translatedText;
+    dispatch(clearTranslate())
+  
+    setText(translatedText);
+    dispatch(clearTranslate())
+  };
 
   const customStyles = {
     option: (provided, state) => ({
@@ -40,9 +50,7 @@ const Home = () => {
       </header>
       <main>
         <section className="translator">
-          <div className="top-buttons">
-            <button id="languageBtn">Change Language</button>
-          </div>
+          <div className="top-buttons"></div>
           <div className="text-areas">
             <div className="text-area-container">
               <Select
@@ -56,13 +64,14 @@ const Home = () => {
               />
               <textarea
                 id="inputText"
-                placeholder="Enter text to translate..."
-                onChange={(e) => setText(e)}
+                placeholder="Enter text.."
+                value={text}
+                onChange={(e) => setText(e.target.value)}
               ></textarea>
             </div>
-            <div className="syncAlt">
+            <button className="syncAlt" id="languageBtn" onClick={handleChange}>
               <SyncAlt />
-            </div>
+            </button>
             <div className="text-area-container">
               <Select
                 options={state.languages}
@@ -74,19 +83,30 @@ const Home = () => {
               />
               <textarea
                 id="outputText"
-                placeholder="Translated text will appear here..."
+                placeholder="Translated text.."
                 readOnly
+                value={state.translatedText}
               ></textarea>
             </div>
           </div>
           <div className="bottom-buttons">
             <button
               id="translateBtn"
-              onClick={() => dispatch(translateText({ source, target, text }))}
+              onClick={() =>
+                dispatch(
+                  translateText({
+                    source: source?.value,
+                    target: target?.value,
+                    text,
+                  })
+                )
+              }
             >
               Translate
             </button>
-            <button id="resetBtn">Reset</button>
+            <button id="resetBtn" onClick={() => dispatch(clearTranslate())}>
+              Reset
+            </button>
           </div>
         </section>
       </main>

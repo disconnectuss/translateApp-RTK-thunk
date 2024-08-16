@@ -23,20 +23,20 @@ export const translateText = createAsyncThunk(
       headers: {
         "x-rapidapi-key": "bb908fbc39msh59a27f0e0c50ae2p1220bdjsn816ff2daf147",
         "x-rapidapi-host": "deep-translate1.p.rapidapi.com",
-        "Content-Type": "application/json",
       },
-      data: {
-        q: params.text,
+      data: JSON.stringify({
         source: params.source,
         target: params.target,
-      },
+        q: params.text,
+      }),
     };
     try {
       const res = await axios.request(options);
-      console.log(res.data);
+      return res.data.data.translations.translatedText; 
     } catch (error) {
       console.error(error);
+      throw error; 
     }
-    return res.data.translateText;
   }
 );
+ 
